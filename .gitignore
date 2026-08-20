@@ -1,0 +1,43 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Python testing / tooling
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Generated ML artifacts
+*.joblib
+
+# Local generated datasets
+ml/synthetic_fraud_dataset.csv
+ml/synthetic_fraud_audit.csv
+
+# Node / React
+node_modules/
+dist/
+build/
+.vite/
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
