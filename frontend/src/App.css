@@ -23,8 +23,10 @@ select {
 }
 
 .app {
+  width: 100%;
   min-height: 100vh;
-  padding: 32px 42px 50px;
+  padding: 32px clamp(16px, 3vw, 42px) 50px;
+  margin: 0;
 }
 
 /* -------------------------------------------------------
@@ -78,8 +80,8 @@ select {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.5vw, 16px);
   margin-bottom: 22px;
 }
 
@@ -122,8 +124,8 @@ select {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.45fr 0.85fr;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.85fr);
+  gap: clamp(16px, 2vw, 24px);
   margin-bottom: 20px;
 }
 
@@ -161,7 +163,7 @@ form {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 17px;
 }
 
@@ -197,7 +199,7 @@ form {
 
 .signal-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin-top: 20px;
 }
@@ -392,13 +394,51 @@ td {
    Responsive layout
 ------------------------------------------------------- */
 
+/* Large screens */
+@media (min-width: 1400px) {
+  .app {
+    padding-left: clamp(42px, 4vw, 72px);
+    padding-right: clamp(42px, 4vw, 72px);
+  }
+
+  .dashboard-grid {
+    grid-template-columns:
+      minmax(0, 1.5fr)
+      minmax(340px, 0.85fr);
+  }
+
+  .ai-investigation-content {
+    max-width: 1250px;
+  }
+}
+
+/* Laptop / tablet landscape */
+@media (max-width: 1100px) {
+  .app {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns:
+      minmax(0, 1.25fr)
+      minmax(280px, 0.9fr);
+    gap: 16px;
+  }
+
+  .summary-grid {
+    gap: 12px;
+  }
+}
+
+/* Tablet */
 @media (max-width: 900px) {
   .app {
     padding: 22px;
   }
 
   .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-grid {
@@ -406,16 +446,92 @@ td {
   }
 }
 
-@media (max-width: 600px) {
+/* Small tablet / large phone */
+@media (max-width: 700px) {
+  .app {
+    padding: 18px;
+  }
+
   .topbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .system-status {
+    align-self: stretch;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .app {
+    padding: 14px;
   }
 
   .summary-grid,
   .form-grid,
   .signal-grid {
     grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    min-height: 100px;
+  }
+
+  .panel-header {
+    padding: 18px 16px 14px;
+  }
+
+  form {
+    padding: 16px;
+  }
+
+  .result-content,
+  .ai-investigation-content {
+    padding: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 26px;
+  }
+
+  .topbar p {
+    font-size: 14px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 400px) {
+  .app {
+    padding: 10px;
+  }
+
+  .summary-grid {
+    gap: 8px;
+  }
+
+  .summary-card {
+    padding: 16px;
+  }
+
+  .summary-card strong {
+    font-size: 27px;
+  }
+
+  .form-group input,
+  .signal-control select,
+  .unit-input-group input,
+  .unit-input-group select {
+    font-size: 14px;
   }
 }
 /* -------------------------------------------------------
