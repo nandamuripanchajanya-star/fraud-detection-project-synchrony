@@ -37,7 +37,7 @@ Risk band: {risk_band}
 Decision: {decision}
 
 TRANSACTION SIGNALS
-Transaction amount: {event.get("transaction_amount")}
+Transaction amount (currency not specified): {event.get("transaction_amount")}
 Transactions in last 10 minutes: {event.get("transactions_last_10min")}
 Time since previous transaction: {event.get("time_since_last_transaction")}
 New device: {event.get("device_is_new")}
@@ -63,8 +63,26 @@ Recommended action:
 
 Rules:
 - Base the explanation only on the supplied assessment and knowledge.
+- Treat transaction signals as factual inputs, not assumptions.
 - Do not invent missing information.
+- Do not infer customer identity, location details, merchant details, or intent that are not supplied.
+- Do not infer, add, or assume a currency symbol or currency name unless the input explicitly provides one.
+- Report monetary values exactly as supplied.
 - Do not change APPROVE, REVIEW, or BLOCK.
 - State uncertainty where appropriate.
 - Keep the response professional and concise.
+- Always include the appropriate unit when reporting numerical evidence.
+- State transaction amounts as numeric values without inventing a currency.
+- State transaction velocity as transactions per 10 minutes.
+- State time since previous transaction with its unit, and when helpful include an equivalent unit in parentheses.
+- State account age with its unit, and when helpful include an equivalent unit in parentheses.
+- Never report a bare numerical value when the meaning depends on a unit.
+- Use plain text headings only.
+- Do not use Markdown formatting.
+- Do not use asterisks (* or **), underscores, hash symbols (#), backticks, or Markdown heading syntax.
+- Use these exact plain-text headings:
+  Risk assessment:
+  Why it was flagged:
+  Relevant evidence:
+  Recommended action:
 """.strip()

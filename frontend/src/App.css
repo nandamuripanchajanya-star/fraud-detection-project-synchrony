@@ -218,15 +218,29 @@ form {
   color: #ffffff;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  transition:
+    background-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
 }
 
 .check-button:hover {
-  opacity: 0.92;
+  background-color: #1e40af;
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.22);
 }
 
 .check-button:active {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 1px 5px rgba(30, 64, 175, 0.18);
+}
+
+.check-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
 }
 
 /* -------------------------------------------------------
@@ -862,18 +876,28 @@ tbody tr:hover td {
   cursor: pointer;
 
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease;
 }
 
 .simulate-button:hover {
-  background: #f8fafc;
+  background-color: #f8fafc;
   border-color: #94a3b8;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.10);
 }
 
 .simulate-button:active {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 1px 4px rgba(30, 58, 138, 0.08);
+}
+
+.simulate-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
 }
 
 @media (max-width: 700px) {
@@ -890,10 +914,22 @@ tbody tr:hover td {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease;
 }
 
 .logout-button:hover {
-  background: #f8fafc;
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 3px 10px rgba(30, 41, 59, 0.08);
+}
+
+.logout-button:active {
+  transform: translateY(1px) scale(0.99);
 }
 /* Login page heading fix */
 .login-brand h1 {
@@ -938,7 +974,7 @@ tbody tr:hover td {
 
 .ai-investigation-button {
   width: 100%;
-  padding: 12px 16px;
+  padding: 13px 16px;
   border: 1px solid #1d4ed8;
   border-radius: 9px;
   background: #ffffff;
@@ -946,24 +982,31 @@ tbody tr:hover td {
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
+
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
 }
 
 .ai-investigation-button:hover:not(:disabled) {
-  background: #eff6ff;
+  background-color: #eff6ff;
   border-color: #1e40af;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.12);
 }
 
 .ai-investigation-button:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 1px 4px rgba(29, 78, 216, 0.08);
 }
 
 .ai-investigation-button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .ai-investigation-result {
@@ -1089,4 +1132,649 @@ tbody tr:hover td {
   background: #fef2f2;
   color: #b91c1c;
   font-size: 12px;
+}
+
+/* Accessibility: keyboard focus */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #4d9fff;
+  outline-offset: 2px;
+}
+.check-button:disabled,
+.simulate-button:disabled {
+  cursor: wait;
+}
+/* =======================================================
+   LOGIN PAGE — compact reference-style layout
+   FraudSense dashboard colours preserved
+   ======================================================= */
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 32px 24px;
+
+  background: #f4f7fb;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 30px 36px;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ---------------- Brand ---------------- */
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.login-brand h1 {
+  margin: 0;
+
+  color: #172033 !important;
+
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.login-brand p {
+  margin: 20px 0 0;
+
+  color: #64748b !important;
+
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* ---------------- Fields ---------------- */
+
+.login-field {
+  position: relative;
+
+  margin-bottom: 22px;
+}
+
+/* Keep labels for accessibility, but don't visually duplicate them */
+.login-label {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+
+  border: 0;
+}
+
+/* Boxed input like the reference image */
+
+.login-field input {
+  width: 100%;
+  height: 48px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #172033;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.login-field input::placeholder {
+  color: #94a3b8;
+}
+
+.login-field input:focus {
+  border-color: #1d4ed8;
+
+  box-shadow:
+    0 0 0 3px rgba(29, 78, 216, 0.10);
+}
+
+/* ---------------- Error ---------------- */
+
+.login-error {
+  margin: 4px 0 18px;
+
+  color: #b91c1c;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ---------------- Sign In ---------------- */
+
+.login-button {
+  width: 140px;
+  height: 48px;
+
+  margin-top: 0;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #1d4ed8;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #1e40af;
+
+  box-shadow:
+    0 4px 12px rgba(29, 78, 216, 0.18);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.login-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+/* ---------------- Loading ---------------- */
+
+.login-loading-content {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+}
+
+.login-spinner {
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid rgba(255, 255, 255, 0.40);
+
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: login-spin 700ms linear infinite;
+}
+
+@keyframes login-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------- Keyboard focus ---------------- */
+
+.login-button:focus-visible,
+.login-field input:focus-visible {
+  outline: 2px solid #4d9fff;
+  outline-offset: 2px;
+}
+
+/* ---------------- Reduced motion ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-spinner {
+    animation: none;
+  }
+}
+/* =======================================================
+   Expandable Recent Assessment Details
+   ======================================================= */
+
+.assessment-clickable-row {
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.assessment-clickable-row:hover td {
+  background: #f8fafc;
+}
+
+.assessment-clickable-row:focus-visible {
+  outline: 2px solid #4d9fff;
+  outline-offset: -2px;
+}
+
+.assessment-expanded-row td {
+  padding: 0;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5eaf1;
+}
+
+.assessment-expanded-content {
+  padding: 22px 24px;
+}
+
+.expanded-result-score {
+  padding: 18px;
+  margin-bottom: 14px;
+
+  border: 1px solid #e3e8f0;
+  border-radius: 12px;
+
+  background: #ffffff;
+  text-align: center;
+}
+
+.expanded-result-score span {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.expanded-result-score strong {
+  color: #172033;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.expanded-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #e8edf3;
+}
+
+.expanded-result-row span {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.expanded-result-row strong {
+  font-size: 13px;
+}
+
+.expanded-reasons-section {
+  padding: 18px 0;
+
+  border-bottom: 1px solid #e8edf3;
+}
+
+.expanded-reasons-section h3 {
+  margin: 0 0 12px;
+
+  color: #172033;
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.expanded-reasons-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.expanded-reasons-section li {
+  margin-bottom: 7px;
+
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.expanded-reasons-section li:last-child {
+  margin-bottom: 0;
+}
+
+.expanded-decision-row {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.assessment-expanded-loading {
+  padding: 22px 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.assessment-expanded-error {
+  padding: 16px 24px;
+  color: #b91c1c;
+  font-size: 13px;
+}
+/* =======================================================
+   Historical Assessment AI Investigation
+   ======================================================= */
+
+.assessment-decision-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.assessment-expand-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+
+  color: #64748b;
+  font-size: 16px;
+  font-weight: 700;
+
+  transition:
+    transform 160ms ease,
+    color 160ms ease;
+}
+
+.assessment-clickable-row:hover
+.assessment-expand-indicator {
+  color: #1d4ed8;
+}
+
+.expanded-ai-section {
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e8edf3;
+}
+
+.expanded-ai-button {
+  width: 100%;
+  padding: 12px 16px;
+
+  border: 1px solid #1d4ed8;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #1d4ed8;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+.expanded-ai-button:hover:not(:disabled) {
+  background: #eff6ff;
+  border-color: #1e40af;
+  box-shadow:
+    0 4px 12px rgba(29, 78, 216, 0.12);
+}
+
+.expanded-ai-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+.expanded-ai-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
+}
+
+.expanded-ai-error {
+  margin-top: 12px;
+  padding: 10px 12px;
+
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+
+  background: #fef2f2;
+  color: #b91c1c;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.expanded-ai-result {
+  margin-top: 16px;
+  padding: 18px;
+
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+
+  background: #ffffff;
+}
+
+.expanded-ai-result h3 {
+  margin: 0 0 12px;
+
+  color: #172033;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.expanded-ai-result pre {
+  margin: 0;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  font-family: inherit;
+  color: #475569;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+/* =======================================================
+   Inline field validation
+   ======================================================= */
+
+.field-validation-error {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 6px;
+
+  color: #dc2626;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+
+  flex-basis: 100%;
+}
+
+.validation-error-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 14px;
+  height: 14px;
+
+  flex: 0 0 14px;
+
+  border: 1.5px solid #dc2626;
+  border-radius: 50%;
+
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+}
+.form-group input[type="number"],
+.unit-input-group input,
+.unit-input-group select {
+  box-shadow:
+    0 2px 8px rgba(30, 41, 59, 0.06);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.form-group input[type="number"]:hover,
+.unit-input-group input:hover,
+.unit-input-group select:hover {
+  box-shadow:
+    0 3px 10px rgba(30, 41, 59, 0.09);
+}
+
+.form-group input[type="number"]:focus,
+.unit-input-group input:focus,
+.unit-input-group select:focus {
+  border-color: #1d4ed8;
+
+  box-shadow:
+    0 0 0 3px rgba(29, 78, 216, 0.10),
+    0 3px 10px rgba(30, 41, 59, 0.08);
+}
+.assessment-expanded-content {
+  transform-origin: top;
+
+  animation: assessmentDetailsReveal 750ms
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes assessmentDetailsReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+    filter: blur(7px);
+  }
+
+  35% {
+    opacity: 0.45;
+    transform: translateY(-3px);
+    filter: blur(4px);
+  }
+
+  70% {
+    opacity: 0.82;
+    transform: translateY(-1px);
+    filter: blur(1.5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.assessment-expanded-loading,
+.assessment-expanded-error {
+  animation: assessmentDetailsFade 450ms ease-out;
+}
+
+@keyframes assessmentDetailsFade {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assessment-expanded-content,
+  .assessment-expanded-loading,
+  .assessment-expanded-error {
+    animation: none;
+  }
+}
+/* =======================================================
+   Dashboard entrance animation
+   ======================================================= */
+
+.app {
+  animation: dashboardReveal 700ms
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dashboardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+
+  45% {
+    opacity: 0.55;
+    transform: translateY(4px);
+    filter: blur(3px);
+  }
+
+  75% {
+    opacity: 0.85;
+    transform: translateY(1px);
+    filter: blur(1px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app {
+    animation: none;
+  }
 }
