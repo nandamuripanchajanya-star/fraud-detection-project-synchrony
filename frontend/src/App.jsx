@@ -324,19 +324,42 @@ useEffect(() => {
 
   loadDashboardData();
 }, [token]);
-	const handleChange = (event) => {
-	const { name, value } = event.target;
+const handleChange = (event) => {
+  const { name, value } = event.target;
 
-	setFormData((previous) => ({
-		...previous,
-		[name]: value,
-	}));
+  setFormData((previous) => {
+    const next = {
+      ...previous,
+      [name]: value,
+    };
 
-	setValidationErrors((previous) => ({
-		...previous,
-		[name]: "",
-	}));
-	};
+    // If there is at least one transaction in the
+    // last 10 minutes, previous-event time must use minutes.
+    if (
+      name === "transactions_last_10min" &&
+      Number(value) > 0
+    ) {
+      next.time_since_unit = "minutes";
+    }
+
+    return next;
+  });
+
+  setValidationErrors((previous) => ({
+    ...previous,
+    [name]: "",
+  }));
+
+  // If transaction count changes the time rule,
+  // clear any old time validation message.
+  if (name === "transactions_last_10min") {
+    setValidationErrors((previous) => ({
+      ...previous,
+      transactions_last_10min: "",
+      time_since_last_transaction: "",
+    }));
+  }
+};
 
 	const validateForm = () => {
 		const errors = {};
@@ -392,6 +415,16 @@ useEffect(() => {
 		} else if (
 		!Number.isInteger(timeSinceLastTransaction) ||
 		timeSinceLastTransaction <= 0
+		) {
+		errors.time_since_last_transaction =
+			"Invalid time";
+		invalidFields.add("time_since_last_transaction");
+		} else if (
+		Number(formData.transactions_last_10min) > 0 &&
+		(
+			formData.time_since_unit !== "minutes" ||
+			timeSinceLastTransaction > 10
+		)
 		) {
 		errors.time_since_last_transaction =
 			"Invalid time";
@@ -956,31 +989,41 @@ return (
 				</label>
 
 				<div className="unit-input-group">
-					<input
-						id="time-since-previous"
-						type="number"
-						name="time_since_last_transaction"
-						value={formData.time_since_last_transaction}
-						onChange={handleChange}
-						placeholder="Enter time"
-						min="1"
-						step="1"
-						required
-						aria-required="true"
-						/>
+				<input
+				id="time-since-previous"
+				type="number"
+				name="time_since_last_transaction"
+				value={formData.time_since_last_transaction}
+				onChange={handleChange}
+				placeholder="Enter time"
+				min="1"
+				max={
+					Number(formData.transactions_last_10min) > 0
+					? "10"
+					: undefined
+				}
+				step="1"
+				required
+				aria-required="true"
+				/>
 
-					<select
-					id="time-since-unit"
-					name="time_since_unit"
-					value={formData.time_since_unit}
-					onChange={handleChange}
-					aria-label="Time unit for previous event"
-					>
-					<option value="minutes">Minutes</option>
-					<option value="hours">Hours</option>
-					<option value="days">Days</option>
-					<option value="years">Years</option>
-					</select>
+						<select
+							id="time-since-unit"
+							name="time_since_unit"
+							value={formData.time_since_unit}
+							onChange={handleChange}
+							aria-label="Time unit for previous event"
+							>
+							<option value="minutes">Minutes</option>
+
+							{Number(formData.transactions_last_10min) === 0 && (
+								<>
+								<option value="hours">Hours</option>
+								<option value="days">Days</option>
+								<option value="years">Years</option>
+								</>
+							)}
+						</select>
 				</div>
 
 				{validationErrors.time_since_last_transaction && (
