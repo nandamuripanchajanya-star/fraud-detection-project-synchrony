@@ -17,7 +17,9 @@ FEATURE_COLUMNS = [
     "location_is_unusual",
     "ip_is_unusual",
     "is_unusual_time",
-    "account_age_days"
+    "account_age_days",
+    "device_ip_anomaly",
+    "multi_signal_count"
 ]
 
 

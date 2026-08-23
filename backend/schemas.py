@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class FraudEvent(BaseModel):
@@ -70,3 +70,25 @@ class FraudEvent(BaseModel):
             raise ValueError("Value must be either 0 or 1")
 
         return value
+    @model_validator(mode="after")
+    def validate_event_consistency(self):
+        # If there were transactions in the last 10 minutes,
+        # the previous event must be 1–10 minutes ago.
+        if self.transactions_last_10min > 0:
+            if not (
+                self.time_since_last_transaction >= 1
+                and self.time_since_last_transaction <= 10
+            ):
+                raise ValueError(
+                    "When transactions_last_10min is greater than 0, "
+                    "time_since_last_transaction must be between "
+                    "1 and 10 minutes."
+                )
+
+        # Time since previous event cannot exceed account age.
+        if self.time_since_last_transaction > self.account_age_days * 1440:
+            raise ValueError(
+                "Time since previous event cannot exceed account age."
+            )
+
+        return self

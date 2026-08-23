@@ -6,7 +6,7 @@ def test_new_device_reason():
     event = FraudEvent(
         transaction_amount=50000,
         transactions_last_10min=1,
-        time_since_last_transaction=60,
+        time_since_last_transaction=5,
         device_is_new=1,
         location_is_unusual=0,
         ip_is_unusual=0,
