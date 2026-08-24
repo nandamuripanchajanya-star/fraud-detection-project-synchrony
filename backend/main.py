@@ -10,7 +10,7 @@ logger = logging.getLogger("fraud_detection")
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from semantic_search import search_fraud_knowledge
 
 from auth import (
@@ -469,6 +469,24 @@ def get_dashboard_summary(
             "low_risk": low_risk,
             "medium_risk": medium_risk,
             "high_risk": high_risk
+        }
+
+    finally:
+        db.close()
+
+
+@app.delete("/api/dashboard/reset")
+def reset_dashboard(
+    current_user: str = Depends(get_current_user)
+):
+    db = SessionLocal()
+
+    try:
+        db.execute(delete(FraudAssessment))
+        db.commit()
+
+        return {
+            "message": "All assessments reset successfully"
         }
 
     finally:
